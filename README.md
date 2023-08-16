@@ -4,4 +4,4 @@ In this version of the course, we experience more in-depth explanations of how R
 
 ## Projects Included in the Course
 
-- (Hacker News Soft Clone)[hacker-news]
+- (Hacker News Soft Clone)[https://github.com/thethmuu/react-course-v2/tree/hacker-news]
