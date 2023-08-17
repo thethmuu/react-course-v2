@@ -1,0 +1,10 @@
+.container {
+  height: 100vh;
+  padding: 0.5rem 1.5rem;
+  color: #222;
+}
+
+.headline {
+  font-size: 3rem;
+  font-weight: 500;
+}

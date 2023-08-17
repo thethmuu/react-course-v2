@@ -1,0 +1,19 @@
+.items-container {
+  list-style: none;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.item > span {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.item span a {
+  color: inherit;
+}

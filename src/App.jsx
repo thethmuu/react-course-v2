@@ -1,75 +1,83 @@
-import { useEffect, useReducer, useRef, useState } from 'react';
+import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
+import InputWithLabel from './components/InputWithLabel';
+import ArticleList from './components/ArticleList';
+import useStorageState from './hooks/useStorageState';
+import axios from 'axios';
+import './App.css';
+
+const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?query=';
 
 const App = () => {
-  const initialStories = [
-    {
-      title: 'React',
-      url: 'https://reactjs.org/',
-      author: 'Jordan Walke',
-      num_comments: 3,
-      points: 4,
-      objectID: 0,
-    },
-    {
-      title: 'Redux',
-      url: 'https://redux.js.org/',
-      author: 'Dan Abramov, Andrew Clark',
-      num_comments: 2,
-      points: 5,
-      objectID: 1,
-    },
-    {
-      title: 'React and Next.js',
-      url: 'https://redux.js.org/',
-      author: 'Dan Abramov, Andrew Clark',
-      num_comments: 2,
-      points: 5,
-      objectID: 3,
-    },
-  ];
-
-  // mock API fetching
-  const getAsyncStories = () =>
-    new Promise((resolve) =>
-      setTimeout(() => resolve({ data: initialStories }), 2000)
-    );
-
-  const [searchTerm, setSearchTerm] = useStorageState('search', '');
-  // const [stories, setStories] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
-
   const storiesReducer = (state, action) => {
-    if (action.type === 'SET_STORIES') {
-      return action.payload;
-    } else if (action.type === 'REMOVE_STORY') {
-      return state.filter(
-        (story) => story.objectID !== action.payload.objectID
-      );
+    switch (action.type) {
+      case 'STORIES_FETCH_INIT':
+        return {
+          ...state,
+          isLoading: true,
+        };
+      case 'STORIES_FETCH_SUCCESS':
+        return {
+          ...state,
+          isLoading: false,
+          isError: false,
+          data: action.payload,
+        };
+      case 'STORIES_FETCH_FAILURE':
+        return {
+          ...state,
+          isLoading: false,
+          isError: true,
+        };
+      case 'REMOVE_STORY': {
+        return {
+          ...state,
+          data: state.data.filter(
+            (story) => story.objectID !== action.payload.objectID
+          ),
+        };
+      }
+      default:
+        throw new Error();
     }
   };
 
-  const [stories, dispatchStories] = useReducer(storiesReducer, []);
+  const [searchTerm, setSearchTerm] = useStorageState('search', '');
+  const [stories, dispatchStories] = useReducer(storiesReducer, {
+    data: [],
+    isLoading: false,
+    isError: false,
+  });
+  const [url, setUrl] = useState(`${API_ENDPOINT}${searchTerm}`);
+
+  // memoized function
+  // useCallback()
+
+  const handleFetch = useCallback(async () => {
+    // early return
+    if (!searchTerm) return;
+    dispatchStories({ type: 'STORIES_FETCH_INIT' });
+
+    try {
+      const result = await axios.get(url);
+
+      dispatchStories({
+        type: 'STORIES_FETCH_SUCCESS',
+        payload: result.data.hits,
+      });
+    } catch {
+      dispatchStories({
+        type: 'STORIES_FETCH_FAILURE',
+      });
+    }
+  }, [url]);
 
   useEffect(() => {
-    setIsLoading(true);
-
-    getAsyncStories()
-      .then((result) => {
-        // setStories(result.data);
-        dispatchStories({ type: 'SET_STORIES', payload: result.data });
-        setIsLoading(false);
-      })
-      .catch(() => setIsError(true));
-  }, []);
+    handleFetch();
+  }, [handleFetch]);
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
-
-  const searchArticles = stories.filter((item) =>
-    item.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
 
   const handleRemoveStory = (item) => {
     // setStories(newStories);
@@ -79,104 +87,42 @@ const App = () => {
     });
   };
 
-  return (
-    <>
-      <h1>Hacker News</h1>
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setUrl(`${API_ENDPOINT}${searchTerm}`);
+  };
 
-      <InputWithLabel
-        id='search'
-        value={searchTerm}
-        onInputChange={handleSearch}
-        isFocused
-      >
-        <strong>Search</strong>
-      </InputWithLabel>
+  return (
+    <section className='container'>
+      <h1 className='headline'>Hacker News</h1>
+
+      <form onSubmit={handleSubmit}>
+        <InputWithLabel
+          id='search'
+          value={searchTerm}
+          onInputChange={handleSearch}
+          isFocused
+        >
+          <strong>Search</strong>
+        </InputWithLabel>
+
+        <button type='submit'>Search</button>
+      </form>
 
       <hr />
 
-      {isError ? <p>Something went wrong!</p> : null}
+      {stories.isError ? <p>Something went wrong!</p> : null}
 
-      {isLoading ? (
+      {stories.isLoading ? (
         <p>Loading...</p>
       ) : (
         <ArticleList
-          list={searchArticles}
+          list={stories.data}
           handleRemoveStory={handleRemoveStory}
         />
       )}
-    </>
+    </section>
   );
 };
-
-const useStorageState = (key, initialState) => {
-  const [value, setValue] = useState(localStorage.getItem(key) || initialState);
-
-  useEffect(() => {
-    localStorage.setItem(key, value);
-  }, [key, value]);
-
-  return [value, setValue];
-};
-
-function InputWithLabel({
-  id,
-  value,
-  onInputChange,
-  type = 'text',
-  children,
-  isFocused,
-}) {
-  const inputRef = useRef();
-
-  useEffect(() => {
-    if (isFocused && inputRef.current) {
-      inputRef.current.focus();
-    }
-  }, [isFocused]);
-
-  return (
-    <>
-      <label htmlFor={id}>{children} </label>
-      {/* controlled component */}
-      <input
-        ref={inputRef}
-        value={value}
-        onChange={onInputChange}
-        type={type}
-        id={id}
-      />
-    </>
-  );
-}
-
-function ArticleList({ list, handleRemoveStory }) {
-  return (
-    <ul>
-      {list.map((item) => (
-        <Article
-          key={item.objectID}
-          article={item}
-          handleRemoveStory={handleRemoveStory}
-        />
-      ))}
-    </ul>
-  );
-}
-
-// eslint-disable-next-line react/prop-types
-function Article({ article, handleRemoveStory }) {
-  const { url, title, author, num_comments, points } = article;
-  return (
-    <li>
-      <span>
-        <a href={url}>{title}</a>
-      </span>
-      <span>{author}</span>
-      <span>{num_comments}</span>
-      <span>{points}</span>
-      <button onClick={() => handleRemoveStory(article)}>Delete</button>
-    </li>
-  );
-}
 
 export default App;
