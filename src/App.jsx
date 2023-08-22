@@ -1,8 +1,18 @@
-import { useCallback, useEffect, useReducer, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+  useMemo,
+} from 'react';
+import axios from 'axios';
+
 import InputWithLabel from './components/InputWithLabel';
 import ArticleList from './components/ArticleList';
+
 import useStorageState from './hooks/useStorageState';
-import axios from 'axios';
+
 import './App.css';
 
 const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?query=';
@@ -49,12 +59,18 @@ const App = () => {
   });
   const [url, setUrl] = useState(`${API_ENDPOINT}${searchTerm}`);
 
-  // memoized function
-  // useCallback()
+  console.log('stories', stories.data[0]);
+
+  function calculateSumofComments(items) {
+    return items.data.reduce((result, value) => result + value.num_comments, 0);
+  }
+
+  const sumOfComments = useMemo(
+    () => calculateSumofComments(stories),
+    [stories]
+  );
 
   const handleFetch = useCallback(async () => {
-    // early return
-    if (!searchTerm) return;
     dispatchStories({ type: 'STORIES_FETCH_INIT' });
 
     try {
@@ -79,13 +95,13 @@ const App = () => {
     setSearchTerm(event.target.value);
   };
 
-  const handleRemoveStory = (item) => {
+  const handleRemoveStory = useCallback((item) => {
     // setStories(newStories);
     dispatchStories({
       type: 'REMOVE_STORY',
       payload: item,
     });
-  };
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
