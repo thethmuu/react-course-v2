@@ -59,17 +59,6 @@ const App = () => {
   });
   const [url, setUrl] = useState(`${API_ENDPOINT}${searchTerm}`);
 
-  console.log('stories', stories.data[0]);
-
-  function calculateSumofComments(items) {
-    return items.data.reduce((result, value) => result + value.num_comments, 0);
-  }
-
-  const sumOfComments = useMemo(
-    () => calculateSumofComments(stories),
-    [stories]
-  );
-
   const handleFetch = useCallback(async () => {
     dispatchStories({ type: 'STORIES_FETCH_INIT' });
 
