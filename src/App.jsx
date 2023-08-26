@@ -118,35 +118,50 @@ const App = () => {
   };
 
   return (
-    <section className='container'>
-      <h1 className='headline'>Hacker News</h1>
+    <main>
+      <nav className='navbar'>
+        <div className='container'>
+          <h1 className='headline'>Hacker News</h1>
 
-      <form onSubmit={handleSubmit}>
-        <InputWithLabel
-          id='search'
-          value={searchTerm}
-          onInputChange={handleSearch}
-          isFocused
-        >
-          <strong>Search</strong>
-        </InputWithLabel>
+          <form onSubmit={handleSubmit}>
+            <InputWithLabel
+              id='search'
+              value={searchTerm}
+              onInputChange={handleSearch}
+              isFocused
+            >
+              <strong>Search</strong>
+            </InputWithLabel>
 
-        <button type='submit'>Search</button>
-      </form>
+            <button
+              style={{ marginLeft: '0.5rem' }}
+              className='btn'
+              type='submit'
+            >
+              Search
+            </button>
+          </form>
+        </div>
+      </nav>
 
-      <hr />
+      <section className='main-content container'>
+        {stories.isError ? <p>Something went wrong!</p> : null}
 
-      {stories.isError ? <p>Something went wrong!</p> : null}
-
-      <ArticleList list={stories.data} handleRemoveStory={handleRemoveStory} />
-      {stories.isLoading ? (
-        <p>Loading...</p>
-      ) : (
-        <button type='button' onClick={handleLoadMore}>
-          Load more
-        </button>
-      )}
-    </section>
+        <ArticleList
+          list={stories.data}
+          handleRemoveStory={handleRemoveStory}
+        />
+        {stories.isLoading ? (
+          <p className='loading-text'>Loading...</p>
+        ) : (
+          <div className='btn-container'>
+            <button className='btn' type='button' onClick={handleLoadMore}>
+              Load more
+            </button>
+          </div>
+        )}
+      </section>
+    </main>
   );
 };
 

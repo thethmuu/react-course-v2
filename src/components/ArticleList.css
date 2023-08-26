@@ -5,7 +5,8 @@
 .item {
   display: flex;
   align-items: center;
-  margin-bottom: 6px;
+  margin-bottom: 0.75rem;
+  gap: 1rem;
 }
 
 .item > span {
