@@ -14,14 +14,21 @@ const SORTINGS = {
 };
 
 const ArticleList = memo(({ list, handleRemoveStory }) => {
-  const [sort, setSort] = useState('NONE');
+  const [sort, setSort] = useState({
+    sortKey: 'NONE',
+    isReverse: false,
+  });
 
   const handleSort = (sortKey) => {
-    setSort(sortKey);
+    const isReverse = sort.sortKey === sortKey && !sort.isReverse;
+
+    setSort({ sortKey: sortKey, isReverse: isReverse });
   };
 
-  const sortFunction = SORTINGS[sort];
-  const sortedList = sortFunction(list);
+  const sortFunction = SORTINGS[sort.sortKey];
+  const sortedList = sort.isReverse
+    ? sortFunction(list).reverse()
+    : sortFunction(list);
 
   return (
     <ul className='items-container'>
