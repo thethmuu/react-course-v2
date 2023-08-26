@@ -15,7 +15,9 @@ import useStorageState from './hooks/useStorageState';
 
 import './App.css';
 
-const API_ENDPOINT = 'https://hn.algolia.com/api/v1/search?query=';
+const API_BASE = 'https://hn.algolia.com/api/v1';
+const API_SEARCH = '/search';
+const PARAM_SEARCH = 'query=';
 
 const App = () => {
   const storiesReducer = (state, action) => {
@@ -59,16 +61,10 @@ const App = () => {
   });
   const [url, setUrl] = useState(`${API_ENDPOINT}${searchTerm}`);
 
-  console.log('stories', stories.data[0]);
+  // https://hn.algolia.com/api/v1/search?query=react&page=1
 
-  function calculateSumofComments(items) {
-    return items.data.reduce((result, value) => result + value.num_comments, 0);
-  }
-
-  const sumOfComments = useMemo(
-    () => calculateSumofComments(stories),
-    [stories]
-  );
+  const getUrl = (searchTerm) =>
+    `${API_BASE}${API_SEARCH}?${PARAM_SEARCH}${searchTerm}`;
 
   const handleFetch = useCallback(async () => {
     dispatchStories({ type: 'STORIES_FETCH_INIT' });
