@@ -1,7 +1,8 @@
-# React and Next.js Course V2
+# React + Vite
 
-In this version of the course, we experience more in-depth explanations of how React works under the hood.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Projects Included in the Course
+Currently, two official plugins are available:
 
-- [Hacker News Soft Clone](https://github.com/thethmuu/react-course-v2/tree/hacker-news)
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
