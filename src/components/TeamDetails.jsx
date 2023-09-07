@@ -25,16 +25,16 @@ const TeamDetails = () => {
   const { teamId } = useParams();
   const { teamNames, articles, team, loading } = useTeamPageData(teamId);
 
-  if (loading) return <p className='text-center py-8'>Loading...</p>;
+  if (loading) return <p className='py-8 text-center'>Loading...</p>;
 
   if (!teamNames?.includes(teamId)) {
-    return <p className='text-center py-8'>The {teamId} does not exist!</p>;
+    return <p className='py-8 text-center'>The {teamId} does not exist!</p>;
   }
 
   return (
     <section className='py-16'>
       <div className='container mx-auto text-center'>
-        <h1 className='text-4xl font-semibold text-center'>{team?.name}</h1>
+        <h1 className='header'>{team?.name}</h1>
 
         <h4 className='mt-6 text-2xl text-center'>
           <Link to={{ pathname: '/players', search: `?teamId=${teamId}` }}>
@@ -42,15 +42,15 @@ const TeamDetails = () => {
           </Link>
         </h4>
 
-        <h4 className='mt-6 text-xl text-center'>Championships</h4>
-        <ul className='mt-4 flex gap-4 justify-center'>
+        <h4 className='mt-6 header-md'>Championships</h4>
+        <ul className='flex justify-center gap-4 mt-4'>
           {team?.championships.map((item) => (
             <li key={item}>{item}</li>
           ))}
         </ul>
 
         {team ? (
-          <ul className='mt-6 text-xl text-center space-y-2'>
+          <ul className='mt-6 space-y-2 text-xl text-center'>
             <li>
               Est. <span>{team.established}</span>
             </li>

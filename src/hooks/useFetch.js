@@ -4,7 +4,7 @@ const API = 'https://api.ui.dev/hash-history-basketball-league';
 
 export default function useFetch(path, method, body = '') {
   const [response, setResponse] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     setLoading(true);
@@ -14,7 +14,6 @@ export default function useFetch(path, method, body = '') {
     const signal = controller.signal;
 
     fetch(`${API}${path}`, {
-      signal,
       method,
       ...(body ? { body } : {}),
       headers: {
