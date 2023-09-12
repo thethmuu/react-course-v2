@@ -3,7 +3,7 @@ import { slugify } from '../utils';
 
 export default function SideBar({ title, list }) {
   return (
-    <section className=''>
+    <aside className='min-w-[240px]'>
       <h3 className='header'>{title}</h3>
       <ul className='max-w-3xl gap-4 mx-auto mt-4 space-y-2'>
         {list.map((item) => (
@@ -12,14 +12,14 @@ export default function SideBar({ title, list }) {
           </CustomLink>
         ))}
       </ul>
-    </section>
+    </aside>
   );
 }
 
 function CustomLink({ children, to }) {
   const location = useLocation();
-  const playerId = location.pathname.split('/')[2];
-  const matched = playerId === to;
+  const splitted = location.pathname.split('/');
+  const matched = splitted[splitted.length - 1] === to;
 
   return (
     <li>

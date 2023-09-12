@@ -37,7 +37,10 @@ const TeamDetails = () => {
         <h1 className='header'>{team?.name}</h1>
 
         <h4 className='mt-6 text-2xl text-center'>
-          <Link to={{ pathname: '/players', search: `?teamId=${teamId}` }}>
+          <Link
+            className='btn'
+            to={{ pathname: '/players', search: `?teamId=${teamId}` }}
+          >
             View Players
           </Link>
         </h4>

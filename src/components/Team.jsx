@@ -35,7 +35,12 @@ const Team = () => {
       </ul>
 
       <div className='mt-6 text-2xl text-center'>
-        <Link to={`/${teamId}`}>{team.name}'s Team Page</Link>
+        <Link
+          className='btn'
+          to={`/${teamId}`}
+        >
+          {team.name}'s Team Page
+        </Link>
       </div>
     </section>
   );
