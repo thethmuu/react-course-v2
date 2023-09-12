@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { useRoutes } from 'react-router-dom';
 import React, { Suspense } from 'react';
 
 const Home = React.lazy(() => import('./Home'));
@@ -15,49 +15,66 @@ import Navbar from './Navbar';
 
 // Suspense
 
+function Routes() {
+  return useRoutes([
+    { path: '/', element: <Home /> },
+    {
+      path: '/players',
+      element: <Players />,
+      children: [
+        { path: ':playerId', element: <Player /> },
+        {
+          path: '',
+          element: (
+            <section className='py-16 text-center grow'>
+              Choose a player
+            </section>
+          ),
+        },
+      ],
+    },
+    {
+      path: '/teams',
+      element: <Teams />,
+      children: [
+        { path: ':teamId', element: <Team /> },
+        {
+          path: '',
+          element: (
+            <section className='py-16 text-center grow'>Choose a team</section>
+          ),
+        },
+      ],
+    },
+    {
+      path: '/:teamId',
+      element: <TeamDetails />,
+    },
+    {
+      path: '/:teamId/articles',
+      element: <Articles />,
+      children: [
+        { path: ':articleId', element: <Article /> },
+        {
+          path: '',
+          element: (
+            <section className='py-16 text-center grow'>
+              Choose an article
+            </section>
+          ),
+        },
+      ],
+    },
+  ]);
+}
+
 function App() {
   return (
     <main>
       <Navbar />
 
       <Suspense fallback={<Spinner />}>
-        <Routes>
-          <Route path='/' element={<Home />} />
-          <Route path='/players' element={<Players />}>
-            <Route path=':playerId' element={<Player />} />
-            <Route
-              path=''
-              element={
-                <section className='py-16 text-center grow'>
-                  Choose a player
-                </section>
-              }
-            />
-          </Route>
-          <Route path='/teams' element={<Teams />}>
-            <Route path=':teamId' element={<Team />} />
-            <Route
-              path=''
-              element={
-                <section className='py-16 text-center grow'>
-                  Choose a team
-                </section>
-              }
-            />
-          </Route>
-          <Route path='/:teamId' element={<TeamDetails />} />
-          <Route path='/:teamId/articles' element={<Articles />}>
-            <Route path=':articleId' element={<Article />} />
-            <Route
-              path=''
-              element={
-                <section className='py-16 text-center grow'>
-                  Choose an article
-                </section>
-              }
-            />
-          </Route>
-        </Routes>
+        <Routes />
       </Suspense>
     </main>
   );
