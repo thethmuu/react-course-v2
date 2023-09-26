@@ -4,6 +4,6 @@ In this version of the course, we experience more in-depth explanations of how R
 
 ## Projects Included in the Course
 
-- [Hacker News Soft Clone - React Concept Project](https://github.com/thethmuu/react-course-v2/tree/hacker-news)
-- [Sports Website - React Router Concept Project](https://github.com/thethmuu/react-course-v2/tree/sports-website)
-- [Social Media App - Next 13 Concept Project](https://github.com/thethmuu/react-course-v2/tree/social-media-app)
+- [Hacker News Soft Clone - React](https://github.com/thethmuu/react-course-v2/tree/hacker-news)
+- [Sports Website - React Router](https://github.com/thethmuu/react-course-v2/tree/sports-website)
+- [Social Media App - Next 13](https://github.com/thethmuu/react-course-v2/tree/social-media-app)
