@@ -2,6 +2,7 @@
 export const dynamic = 'force-static';
 export const revalidate = 360;
 
+import AuthCheck from '@/components/AuthCheck';
 import Toggle from '@/components/Toggle';
 import Link from 'next/link';
 
@@ -38,8 +39,6 @@ export default async function Home() {
               </article>
             ))}
           </ul>
-
-          <Toggle />
         </div>
       </section>
     </main>
