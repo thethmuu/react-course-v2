@@ -44,7 +44,7 @@ export default function FollowClient({ isFollowing, targetUserId }) {
   if (isFollowing) {
     return (
       <button
-        className='bg-indigo-500 hover:bg-indigo-400 px-2 py-1 rounded text-white'
+        className='bg-indigo-500 hover:bg-indigo-400 px-2 py-1 rounded text-white text-sm'
         onClick={unfollow}
       >
         {isMutating ? '...' : 'Unfollow'}
@@ -53,7 +53,7 @@ export default function FollowClient({ isFollowing, targetUserId }) {
   } else {
     return (
       <button
-        className='bg-indigo-500 hover:bg-indigo-400 px-2 py-1 rounded text-white'
+        className='bg-indigo-500 hover:bg-indigo-400 px-2 py-1 rounded text-white text-sm'
         onClick={follow}
       >
         {isMutating ? '...' : 'Follow'}

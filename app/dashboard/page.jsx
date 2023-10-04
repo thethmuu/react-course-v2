@@ -11,8 +11,6 @@ export default async function UserDashboard() {
     redirect('/api/auth/signin');
   }
 
-  console.log({ session });
-
   return (
     <section>
       <div className='container mx-auto'>

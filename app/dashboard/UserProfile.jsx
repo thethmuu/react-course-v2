@@ -14,8 +14,6 @@ export default function UserProfile() {
       bio: formData.get('bio'),
     };
 
-    console.log({ body });
-
     const res = await fetch('/api/user', {
       method: 'PUT',
       body: JSON.stringify(body),
@@ -31,15 +29,16 @@ export default function UserProfile() {
   const user = session.user;
 
   return (
-    <div className='max-w-md mx-auto shadow p-3 mt-6'>
-      <h2>Update your profile</h2>
+    <article className='max-w-md mx-auto shadow px-4 py-6 mt-6'>
+      <h2 className='text-center font-semibold text-lg'>Update your profile</h2>
+
       <form className='mt-3 space-y-3' onSubmit={handleSubmit}>
         <div>
           <label className='block' htmlFor='name'>
             Name
           </label>
           <input
-            className='w-full border px-2 py-1'
+            className='w-full border px-2 py-1 mt-1'
             type='text'
             id='name'
             name='name'
@@ -51,7 +50,7 @@ export default function UserProfile() {
             Bio
           </label>
           <textarea
-            className='w-full border px-2 py-1'
+            className='w-full border px-2 py-1 mt-1'
             rows={5}
             id='bio'
             name='bio'
@@ -61,6 +60,6 @@ export default function UserProfile() {
 
         <button type='submit'>Save</button>
       </form>
-    </div>
+    </article>
   );
 }

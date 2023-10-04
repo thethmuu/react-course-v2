@@ -8,8 +8,6 @@ export default async function PostDetail({ params }) {
 
   const post = posts.find((item) => item.slug === params.slug);
 
-  console.log({ post });
-
   return (
     <section>
       <article className='max-w-3xl mx-auto border rounded mt-6 p-4'>
