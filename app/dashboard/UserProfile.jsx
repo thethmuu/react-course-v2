@@ -14,17 +14,17 @@ export default function UserProfile() {
       bio: formData.get('bio'),
     };
 
-    console.log(body);
+    console.log({ body });
 
-    // const res = await fetch('/api/user', {
-    //   method: 'PUT',
-    //   body: JSON.stringify(body),
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    // });
+    const res = await fetch('/api/user', {
+      method: 'PUT',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
-    // await res.json();
+    await res.json();
   }
 
   if (status === 'loading') return null;
@@ -56,7 +56,7 @@ export default function UserProfile() {
             id='bio'
             name='bio'
             defaultValue={user?.bio ?? ''}
-          />
+          ></textarea>
         </div>
 
         <button type='submit'>Save</button>

@@ -1,12 +1,15 @@
-import React from 'react';
-import UserProfile from './UserProfile';
 import { getServerSession } from 'next-auth';
+import { redirect } from 'next/navigation';
+
+import UserProfile from './UserProfile';
 import { authOptions } from '../api/auth/[...nextauth]/route';
 
-export default function UserDashboard() {
-  const res = getServerSession(authOptions);
+export default async function UserDashboard() {
+  const session = await getServerSession(authOptions);
 
-  console.log({ res });
+  if (!session) {
+    redirect('/api/auth/signin');
+  }
 
   return (
     <section>
