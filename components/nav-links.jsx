@@ -12,7 +12,6 @@ export default function NavLinks({ data }) {
     label: item.name,
     isActive: pathname === `/categories/${item.slug}`,
   }));
-  console.log({ links });
 
   return (
     <nav className='flex items-center gap-4 lg:gap-6 mx-6'>
