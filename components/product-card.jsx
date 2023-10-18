@@ -13,6 +13,10 @@ export default function ProductCard() {
     router.push('/products/polo-tee');
   }
 
+  function preventEventBubbling(e) {
+    e.stopPropagation();
+  }
+
   return (
     <article
       onClick={handleClick}
@@ -25,7 +29,10 @@ export default function ProductCard() {
           fill
           className='object-cover aspect-square rounded-md'
         />
-        <div className='absolute bottom-5 flex items-center justify-center w-full opacity-0 group-hover:opacity-100 gap-2'>
+        <div
+          onClick={preventEventBubbling}
+          className='absolute bottom-5 flex items-center justify-center w-full opacity-0 group-hover:opacity-100 gap-2'
+        >
           <Button variant='secondary'>
             <Expand size={18} className='text-gray-600' />
           </Button>
