@@ -11,13 +11,19 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { createPortal } from 'react-dom';
+import { useEffect, useState } from 'react';
+import useHasMounted from '@/hooks/useHasMounted';
 
 export default function CartAction() {
+  const hasMounted = useHasMounted();
+
+  if (!hasMounted) return null;
+
   return (
     <div className='flex items-center gap-4'>
       <Sheet>
         <SheetTrigger>
-          <Button className='rounded-3xl flex items-center gap-2'>
+          <Button className='cart-button rounded-3xl flex items-center gap-2'>
             <ShoppingBag size={18} color='white' />
             <span>0</span>
           </Button>

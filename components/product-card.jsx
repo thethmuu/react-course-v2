@@ -20,7 +20,7 @@ export default function ProductCard() {
   return (
     <article
       onClick={handleClick}
-      className='max-w-md group space-y-3 text-center cursor-pointer'
+      className='max-w-[16rem] group space-y-3 text-center cursor-pointer border-neutral-900'
     >
       <div className='aspect-square rounded-xl relative'>
         <Image
