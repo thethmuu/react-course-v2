@@ -1,13 +1,15 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { Button } from '../ui/button';
+import ImageUpload from '../image-upload';
 
 export default function ProductForm() {
   const {
     register,
     handleSubmit,
     formState: { errors },
+    control,
   } = useForm();
 
   function onSubmit(formData) {
@@ -18,6 +20,22 @@ export default function ProductForm() {
     <article className='max-w-sm mx-auto mt-4'>
       <h1 className='text-2xl font-semibold'>Create New Product</h1>
       <form onSubmit={handleSubmit(onSubmit)} className='mt-3 space-y-3'>
+        <div>
+          <label htmlFor='image'>Image</label>
+
+          <Controller
+            name='imageUrl'
+            control={control}
+            render={({ field }) => (
+              <ImageUpload
+                value={field.value ? [field.value] : []}
+                disabled={false}
+                onChange={(url) => field.onChange(url)}
+                onRemove={() => field.onChange('')}
+              />
+            )}
+          />
+        </div>
         <div>
           <label htmlFor='name'>Name</label>
           <input
