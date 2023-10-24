@@ -5,7 +5,8 @@ import CartAction from './cart-action';
 import getCategories from '@/actions/getCategories';
 
 export default async function Navbar() {
-  const categories = await getCategories();
+  // const categories = await getCategories();
+  const categories = [];
 
   return (
     <header className='border-b'>
