@@ -2,11 +2,11 @@ import Link from 'next/link';
 
 import NavLinks from './nav-links';
 import CartAction from './cart-action';
+
 import getCategories from '@/actions/getCategories';
 
 export default async function Navbar() {
-  // const categories = await getCategories();
-  const categories = [];
+  const categories = await getCategories();
 
   return (
     <header className='border-b'>

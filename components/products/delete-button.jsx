@@ -15,7 +15,7 @@ export default function DeleteButton({ id }) {
         await deleteProduct(id);
         router.refresh();
       } catch (error) {
-        console.log(error);
+        console.log(error.message);
       }
     }
   }

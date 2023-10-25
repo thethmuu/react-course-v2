@@ -1,14 +1,20 @@
 'use client';
 
+import { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+
 import { Button } from '../ui/button';
 import ImageUpload from '../image-upload';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+
 import updateProduct from '@/actions/updateProduct';
 
-export default function ProductForm({ initialData }) {
-  console.log(initialData);
+export default function ProductForm({
+  initialData,
+  sizes,
+  colors,
+  categories,
+}) {
   const {
     register,
     handleSubmit,
@@ -29,7 +35,6 @@ export default function ProductForm({ initialData }) {
       setIsLoading(true);
       // update mode
       if (initialData) {
-        console.log('formData', formData);
         await updateProduct(initialData.id, formData);
       } else {
         // create mode
@@ -104,9 +109,11 @@ export default function ProductForm({ initialData }) {
             className='w-full border px-2 py-1 mt-1 rounded'
             id='category'
           >
-            <option value=''>Select category</option>
-            <option value='1'>Shoes</option>
-            <option value='2'>Bags</option>
+            {categories.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.name}
+              </option>
+            ))}
           </select>
 
           {errors.categoryId && (
@@ -121,8 +128,11 @@ export default function ProductForm({ initialData }) {
             className='w-full border px-2 py-1 mt-1 rounded'
             id='sizeId'
           >
-            <option value='1'>SM</option>
-            <option value='2'>MD</option>
+            {sizes.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.name}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -134,8 +144,11 @@ export default function ProductForm({ initialData }) {
             type='text'
             id='color'
           >
-            <option value='1'>Red</option>
-            <option value='2'>Black</option>
+            {colors.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.name}
+              </option>
+            ))}
           </select>
         </div>
 

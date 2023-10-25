@@ -20,8 +20,6 @@ import Link from 'next/link';
 export default async function Products() {
   const products = await getProducts();
 
-  console.log(products);
-
   return (
     <section>
       <div className='container mx-auto max-w-6xl py-6'>
