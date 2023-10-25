@@ -3,35 +3,73 @@
 import { Controller, useForm } from 'react-hook-form';
 import { Button } from '../ui/button';
 import ImageUpload from '../image-upload';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import updateProduct from '@/actions/updateProduct';
 
-export default function ProductForm() {
+export default function ProductForm({ initialData }) {
+  console.log(initialData);
   const {
     register,
     handleSubmit,
     formState: { errors },
     control,
-  } = useForm();
+  } = useForm({
+    ...(initialData && {
+      defaultValues: initialData,
+    }),
+  });
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
-  function onSubmit(formData) {
-    console.log(formData);
+  const URL = `${process.env.NEXT_PUBLIC_API_URL}/products?apikey=${process.env.NEXT_PUBLIC_API_KEY}`;
+
+  async function onSubmit(formData) {
+    try {
+      setIsLoading(true);
+      // update mode
+      if (initialData) {
+        console.log('formData', formData);
+        await updateProduct(initialData.id, formData);
+      } else {
+        // create mode
+        await fetch(URL, {
+          method: 'POST',
+          body: JSON.stringify(formData),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+      }
+
+      // await axios.post(URL, formData)
+
+      router.refresh();
+      router.push('/admin/products');
+    } catch (error) {
+      console.log('Something went wrong!');
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
     <article className='max-w-sm mx-auto mt-4'>
-      <h1 className='text-2xl font-semibold'>Create New Product</h1>
+      <h1 className='text-2xl font-semibold'>
+        {initialData ? 'Update product' : 'Create New Product'}
+      </h1>
       <form onSubmit={handleSubmit(onSubmit)} className='mt-3 space-y-3'>
         <div>
           <label htmlFor='image'>Image</label>
-
           <Controller
             name='imageUrl'
             control={control}
-            render={({ field }) => (
+            render={({ field: { value, onChange } }) => (
               <ImageUpload
-                value={field.value ? [field.value] : []}
-                disabled={false}
-                onChange={(url) => field.onChange(url)}
-                onRemove={() => field.onChange('')}
+                value={value ? [value] : []}
+                onChange={(url) => onChange(url)}
+                onRemove={() => onChange('')}
               />
             )}
           />
@@ -46,6 +84,19 @@ export default function ProductForm() {
           />
           {errors.name && (
             <small className='mt-1 text-red-500'>Name is required</small>
+          )}
+        </div>
+
+        <div>
+          <label htmlFor='price'>Price</label>
+          <input
+            {...register('price', { required: true })}
+            className='w-full border px-2 py-1 mt-1 rounded'
+            type='number'
+            id='price'
+          />
+          {errors.price && (
+            <small className='mt-1 text-red-500'>Price is required</small>
           )}
         </div>
 
@@ -102,7 +153,9 @@ export default function ProductForm() {
         </div>
 
         <div className='flex justify-end'>
-          <Button size='sm'>Create</Button>
+          <Button disabled={isLoading} size='sm'>
+            Create
+          </Button>
         </div>
       </form>
     </article>

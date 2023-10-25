@@ -1,63 +1,47 @@
 'use client';
 
-import { TrashIcon, ImagePlusIcon } from 'lucide-react';
-import Image from 'next/image';
 import { CldUploadWidget } from 'next-cloudinary';
-
+import Image from 'next/image';
 import { Button } from './ui/button';
+import { TrashIcon } from 'lucide-react';
 
-import useHasMounted from '@/hooks/useHasMounted';
-
-export default function ImageUpload({ disabled, onChange, onRemove, value }) {
-  const hasMounted = useHasMounted();
-
-  const onUpload = (result) => {
+export default function ImageUpload({ value, onChange, onRemove }) {
+  function onUpload(result) {
     onChange(result.info.secure_url);
-  };
-
-  if (!hasMounted) return null;
+  }
 
   return (
     <section>
-      <ul className='mb-4 flex items-center gap-4'>
+      <ul>
         {value.map((url) => (
-          <li
-            key={url}
-            className='relative w-[200px] aspect-square rouned-md overflow-hidden'
-          >
+          <li className='relative w-[220px] aspect-square rounded-md' key={url}>
             <Button
               type='button'
               onClick={() => onRemove(url)}
-              className='z-10 absolute top-2 right-2'
               variant='destrutive'
-              size='icon'
+              className='absolute z-10 top-1 right-1'
             >
-              <TrashIcon className='h-4' />
+              <TrashIcon />
             </Button>
             <Image
-              fill
               className='object-cover'
-              alt='Image to upload'
+              alt='Product image'
+              fill
               src={url}
             />
           </li>
         ))}
       </ul>
-      <CldUploadWidget onUpload={onUpload} uploadPreset='l3iak0ml'>
+      <CldUploadWidget onUpload={onUpload} uploadPreset='hmttejbk'>
         {({ open }) => {
-          const onClick = () => {
+          function handleOnClick(e) {
+            e.preventDefault();
             open();
-          };
-
+          }
           return (
-            <Button
-              type='button'
-              onClick={onClick}
-              variant='secondary'
-              disabled={disabled}
-            >
-              <ImagePlusIcon />
-            </Button>
+            <button className='button' onClick={handleOnClick}>
+              Upload an Image
+            </button>
           );
         }}
       </CldUploadWidget>

@@ -5,12 +5,8 @@ import CartAction from './cart-action';
 import getCategories from '@/actions/getCategories';
 
 export default async function Navbar() {
-  const categories = [
-    { id: 1, name: 'Bags', slug: 'bags' },
-    { id: 2, name: 'Shoes', slug: 'shoes' },
-    { id: 3, name: 'Shirts', slug: 'shirts' },
-    { id: 4, name: 'Trousers', slug: 'trousers' },
-  ];
+  // const categories = await getCategories();
+  const categories = [];
 
   return (
     <header className='border-b'>
