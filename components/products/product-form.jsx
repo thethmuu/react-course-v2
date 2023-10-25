@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import { Loader2 } from 'lucide-react';
 
 import { Button } from '../ui/button';
 import ImageUpload from '../image-upload';
@@ -27,6 +28,8 @@ export default function ProductForm({
   });
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const isMutating = isLoading || isPending;
 
   const URL = `${process.env.NEXT_PUBLIC_API_URL}/products?apikey=${process.env.NEXT_PUBLIC_API_KEY}`;
 
@@ -47,7 +50,9 @@ export default function ProductForm({
         });
       }
 
-      router.refresh();
+      startTransition(() => {
+        router.refresh();
+      });
       router.push('/admin/products');
     } catch (error) {
       console.log(error.message);
@@ -163,8 +168,12 @@ export default function ProductForm({
         </div>
 
         <div className='flex justify-end'>
-          <Button disabled={isLoading} size='sm'>
-            Create
+          <Button disabled={isMutating} size='sm'>
+            {initialData ? 'Update' : 'Create'}
+
+            {isMutating ? (
+              <Loader2 className='ml-2 h-4 w-4 animate-spin' />
+            ) : null}
           </Button>
         </div>
       </form>
