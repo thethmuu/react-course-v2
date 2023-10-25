@@ -42,20 +42,17 @@ export default function ProductForm({ initialData }) {
         });
       }
 
-      // await axios.post(URL, formData)
-
       router.refresh();
       router.push('/admin/products');
     } catch (error) {
-      console.log('Something went wrong!');
-      console.log(error);
+      console.log(error.message);
     } finally {
       setIsLoading(false);
     }
   }
 
   return (
-    <article className='max-w-sm mx-auto mt-4'>
+    <article className='max-w-sm mx-auto my-4'>
       <h1 className='text-2xl font-semibold'>
         {initialData ? 'Update product' : 'Create New Product'}
       </h1>

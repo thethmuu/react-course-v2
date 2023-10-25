@@ -30,12 +30,12 @@ export default async function Products() {
           <TableHeader>
             <TableRow>
               <TableHead>Image</TableHead>
-              <TableHead className='w-[100px]'>Name</TableHead>
+              <TableHead>Name</TableHead>
               <TableHead>Price</TableHead>
               <TableHead>Category</TableHead>
               <TableHead>Size</TableHead>
               <TableHead>Color</TableHead>
-              <TableHead className='text-center' colspan='2'>
+              <TableHead className='text-center' colSpan='2'>
                 Actions
               </TableHead>
               {/* <TableHead className='text-right'>Description</TableHead> */}
@@ -45,14 +45,17 @@ export default async function Products() {
             {products.map((product) => (
               <TableRow key={product.id}>
                 <TableCell>
-                  {product.imageUrl ? (
-                    <Image
-                      width={84}
-                      height={84}
-                      alt={product.name}
-                      src={product.imageUrl}
-                    />
-                  ) : null}
+                  <figure className='relative w-12 aspect-[2.5/3] rounded shadow'>
+                    {product.imageUrl ? (
+                      <Image
+                        className='object-cover'
+                        fill
+                        priority
+                        alt={product.name}
+                        src={product.imageUrl}
+                      />
+                    ) : null}
+                  </figure>
                 </TableCell>
                 <TableCell>{product.name}</TableCell>
                 <TableCell className='font-medium'>
