@@ -8,9 +8,9 @@ export default function NavLinks({ data }) {
   const pathname = usePathname();
 
   const links = data.map((item) => ({
-    href: `/categories/${item.slug}`,
+    href: `/products?category=${item.slug}`,
     label: item.name,
-    isActive: pathname === `/categories/${item.slug}`,
+    isActive: pathname === `/products?category=${item.slug}`,
   }));
 
   return (

@@ -2,6 +2,7 @@ import Link from 'next/link';
 
 import NavLinks from './nav-links';
 import CartAction from './cart-action';
+import SearchForm from './search-form';
 
 import getCategories from '@/actions/getCategories';
 
@@ -17,6 +18,8 @@ export default async function Navbar() {
           </Link>
           <NavLinks data={categories} />
         </div>
+
+        <SearchForm />
 
         <CartAction />
       </div>
