@@ -5,14 +5,20 @@ import { Button } from '../ui/button';
 import ImageUpload from '../image-upload';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import updateProduct from '@/actions/updateProduct';
 
-export default function ProductForm() {
+export default function ProductForm({ initialData }) {
+  console.log(initialData);
   const {
     register,
     handleSubmit,
     formState: { errors },
     control,
-  } = useForm();
+  } = useForm({
+    ...(initialData && {
+      defaultValues: initialData,
+    }),
+  });
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -21,13 +27,20 @@ export default function ProductForm() {
   async function onSubmit(formData) {
     try {
       setIsLoading(true);
-      await fetch(URL, {
-        method: 'POST',
-        body: JSON.stringify(formData),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      // update mode
+      if (initialData) {
+        console.log('formData', formData)
+        await updateProduct(initialData.id, formData);
+      } else {
+        // create mode
+        await fetch(URL, {
+          method: 'POST',
+          body: JSON.stringify(formData),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+      }
 
       // await axios.post(URL, formData)
 
@@ -43,7 +56,9 @@ export default function ProductForm() {
 
   return (
     <article className='max-w-sm mx-auto mt-4'>
-      <h1 className='text-2xl font-semibold'>Create New Product</h1>
+      <h1 className='text-2xl font-semibold'>
+        {initialData ? 'Update product' : 'Create New Product'}
+      </h1>
       <form onSubmit={handleSubmit(onSubmit)} className='mt-3 space-y-3'>
         <div>
           <label htmlFor='image'>Image</label>

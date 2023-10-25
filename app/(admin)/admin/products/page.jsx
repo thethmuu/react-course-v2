@@ -1,6 +1,9 @@
 // export const dynamic = 'force-dynamic';
 
 import getProducts from '@/actions/getProducts';
+import DeleteButton from '@/components/products/delete-button';
+import UpdateButton from '@/components/products/update-button';
+import { Button } from '@/components/ui/button';
 import {
   Table,
   TableBody,
@@ -10,6 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { TrashIcon } from 'lucide-react';
 import Image from 'next/image';
 
 export default async function Products() {
@@ -28,6 +32,12 @@ export default async function Products() {
               <TableHead>Image</TableHead>
               <TableHead className='w-[100px]'>Name</TableHead>
               <TableHead>Price</TableHead>
+              <TableHead>Category</TableHead>
+              <TableHead>Size</TableHead>
+              <TableHead>Color</TableHead>
+              <TableHead className='text-center' colspan='2'>
+                Actions
+              </TableHead>
               {/* <TableHead className='text-right'>Description</TableHead> */}
             </TableRow>
           </TableHeader>
@@ -48,7 +58,15 @@ export default async function Products() {
                 <TableCell className='font-medium'>
                   {product.price ? product.price : ''}
                 </TableCell>
-                {/* <TableCell>Credit Card</TableCell> */}
+                <TableCell>{product.category?.name}</TableCell>
+                <TableHead>{product.size?.name}</TableHead>
+                <TableHead>{product.color?.name}</TableHead>
+                <TableHead>
+                  <UpdateButton id={product.id} />
+                </TableHead>
+                <TableHead>
+                  <DeleteButton id={product.id} />
+                </TableHead>
                 {/* <TableCell className='text-right'>$250.00</TableCell> */}
               </TableRow>
             ))}
