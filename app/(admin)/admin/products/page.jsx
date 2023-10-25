@@ -7,14 +7,15 @@ import { Button } from '@/components/ui/button';
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { TrashIcon } from 'lucide-react';
+import { formatDistance } from 'date-fns';
+import { PlusCircleIcon } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default async function Products() {
   const products = await getProducts();
@@ -23,8 +24,16 @@ export default async function Products() {
 
   return (
     <section>
-      <div className='container mx-auto max-w-3xl py-6'>
-        <h1 className='text-center'>Products</h1>
+      <div className='container mx-auto max-w-6xl py-6'>
+        <div className='flex justify-end'>
+          <Link href='/admin/products/create'>
+            <Button size='sm'>
+              <PlusCircleIcon className='w-4 h-4 mr-2' /> Add Product
+            </Button>
+          </Link>
+        </div>
+
+        <h1 className='text-center mt-4'>Products</h1>
 
         <Table className='mt-4'>
           <TableHeader>
@@ -38,39 +47,42 @@ export default async function Products() {
               <TableHead className='text-center' colSpan='2'>
                 Actions
               </TableHead>
-              {/* <TableHead className='text-right'>Description</TableHead> */}
+              <TableHead>Created</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {products.map((product) => (
               <TableRow key={product.id}>
                 <TableCell>
-                  <figure className='relative w-12 aspect-[2.5/3] rounded shadow'>
-                    {product.imageUrl ? (
+                  {product.imageUrl ? (
+                    <figure className='relative w-12 aspect-[2.5/3] rounded shadow'>
                       <Image
                         className='object-cover'
                         fill
                         priority
+                        sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
                         alt={product.name}
                         src={product.imageUrl}
                       />
-                    ) : null}
-                  </figure>
+                    </figure>
+                  ) : null}
                 </TableCell>
                 <TableCell>{product.name}</TableCell>
                 <TableCell className='font-medium'>
                   {product.price ? product.price : ''}
                 </TableCell>
                 <TableCell>{product.category?.name}</TableCell>
-                <TableHead>{product.size?.name}</TableHead>
-                <TableHead>{product.color?.name}</TableHead>
-                <TableHead>
+                <TableCell>{product.size?.name}</TableCell>
+                <TableCell>{product.color?.name}</TableCell>
+                <TableCell>
                   <UpdateButton id={product.id} />
-                </TableHead>
-                <TableHead>
+                </TableCell>
+                <TableCell>
                   <DeleteButton id={product.id} />
-                </TableHead>
-                {/* <TableCell className='text-right'>$250.00</TableCell> */}
+                </TableCell>
+                <TableCell>
+                  {formatDistance(new Date(product.created_at), new Date())} ago
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

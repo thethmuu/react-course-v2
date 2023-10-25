@@ -7,7 +7,7 @@ import { FileEditIcon } from 'lucide-react';
 
 export default function UpdateButton({ id }) {
   return (
-    <Button variant='outline'>
+    <Button variant='outline' size='icon'>
       <Link href={`/admin/products/${id}`}>
         <FileEditIcon className='w-4 h-4' />
       </Link>
