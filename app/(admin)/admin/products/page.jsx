@@ -13,8 +13,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { format, formatDistance } from 'date-fns';
+import { PlusCircleIcon } from 'lucide-react';
 import { TrashIcon } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export default async function Products() {
   const products = await getProducts();
@@ -23,22 +26,30 @@ export default async function Products() {
 
   return (
     <section>
-      <div className='container mx-auto max-w-3xl py-6'>
-        <h1 className='text-center'>Products</h1>
+      <div className='container mx-auto max-w-6xl py-6'>
+        <div className='flex justify-end'>
+          <Link href='/admin/products/create'>
+            <Button size='sm'>
+              <PlusCircleIcon className='mr-2 w-4 h-4' /> Add Product
+            </Button>
+          </Link>
+        </div>
+
+        <h1 className='text-center mt-4'>Products</h1>
 
         <Table className='mt-4'>
           <TableHeader>
             <TableRow>
               <TableHead>Image</TableHead>
-              <TableHead className='w-[100px]'>Name</TableHead>
+              <TableHead>Name</TableHead>
               <TableHead>Price</TableHead>
               <TableHead>Category</TableHead>
               <TableHead>Size</TableHead>
               <TableHead>Color</TableHead>
-              <TableHead className='text-center' colspan='2'>
+              <TableHead className='text-center' colSpan='2'>
                 Actions
               </TableHead>
-              {/* <TableHead className='text-right'>Description</TableHead> */}
+              <TableHead>Created</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -46,12 +57,15 @@ export default async function Products() {
               <TableRow key={product.id}>
                 <TableCell>
                   {product.imageUrl ? (
-                    <Image
-                      width={84}
-                      height={84}
-                      alt={product.name}
-                      src={product.imageUrl}
-                    />
+                    <figure className='relative w-12 aspect-[2.5/3] rounded shadow'>
+                      <Image
+                        className='object-cover'
+                        fill
+                        priority
+                        alt={product.name}
+                        src={product.imageUrl}
+                      />
+                    </figure>
                   ) : null}
                 </TableCell>
                 <TableCell>{product.name}</TableCell>
@@ -67,7 +81,9 @@ export default async function Products() {
                 <TableHead>
                   <DeleteButton id={product.id} />
                 </TableHead>
-                {/* <TableCell className='text-right'>$250.00</TableCell> */}
+                <TableCell>
+                  {formatDistance(new Date(product.created_at), new Date())} ago
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

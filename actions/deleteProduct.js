@@ -5,7 +5,7 @@ async function deleteProduct(id) {
     method: 'DELETE',
   });
 
-  return res.json();
+  return res;
 }
 
 export default deleteProduct;

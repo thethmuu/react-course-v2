@@ -1,7 +1,7 @@
 'use client';
-import { ShoppingBag } from 'lucide-react';
 
-import { Button } from './ui/button';
+import { ShoppingCart } from 'lucide-react';
+
 import {
   Sheet,
   SheetContent,
@@ -10,8 +10,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { createPortal } from 'react-dom';
-import { useEffect, useState } from 'react';
+
 import useHasMounted from '@/hooks/useHasMounted';
 
 export default function CartAction() {
@@ -22,11 +21,11 @@ export default function CartAction() {
   return (
     <div className='flex items-center gap-4'>
       <Sheet>
-        <SheetTrigger>
-          <Button className='cart-button rounded-3xl flex items-center gap-2'>
-            <ShoppingBag size={18} color='white' />
-            <span>0</span>
-          </Button>
+        <SheetTrigger className='rounded flex items-center gap-2 p-2 relative border'>
+          <ShoppingCart className='w-4 h-4' color='black' />
+          <span className='absolute -top-2 -right-2 test-xs w-4 h-4 flex items-center justify-center bg-blue-500 text-white rounded'>
+            0
+          </span>
         </SheetTrigger>
         <SheetContent>
           <SheetHeader>

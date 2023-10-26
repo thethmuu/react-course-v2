@@ -4,11 +4,16 @@ import { Controller, useForm } from 'react-hook-form';
 import { Button } from '../ui/button';
 import ImageUpload from '../image-upload';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import updateProduct from '@/actions/updateProduct';
+import { Loader2 } from 'lucide-react';
 
-export default function ProductForm({ initialData }) {
-  console.log(initialData);
+export default function ProductForm({
+  initialData,
+  categories,
+  sizes,
+  colors,
+}) {
   const {
     register,
     handleSubmit,
@@ -21,6 +26,8 @@ export default function ProductForm({ initialData }) {
   });
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  const isMutating = isLoading || isPending;
 
   const URL = `${process.env.NEXT_PUBLIC_API_URL}/products?apikey=${process.env.NEXT_PUBLIC_API_KEY}`;
 
@@ -29,7 +36,6 @@ export default function ProductForm({ initialData }) {
       setIsLoading(true);
       // update mode
       if (initialData) {
-        console.log('formData', formData)
         await updateProduct(initialData.id, formData);
       } else {
         // create mode
@@ -42,9 +48,9 @@ export default function ProductForm({ initialData }) {
         });
       }
 
-      // await axios.post(URL, formData)
-
-      router.refresh();
+      startTransition(() => {
+        router.refresh();
+      });
       router.push('/admin/products');
     } catch (error) {
       console.log('Something went wrong!');
@@ -108,8 +114,11 @@ export default function ProductForm({ initialData }) {
             id='category'
           >
             <option value=''>Select category</option>
-            <option value='1'>Shoes</option>
-            <option value='2'>Bags</option>
+            {categories.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.name}
+              </option>
+            ))}
           </select>
 
           {errors.categoryId && (
@@ -124,8 +133,11 @@ export default function ProductForm({ initialData }) {
             className='w-full border px-2 py-1 mt-1 rounded'
             id='sizeId'
           >
-            <option value='1'>SM</option>
-            <option value='2'>MD</option>
+            {sizes.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.name}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -137,8 +149,11 @@ export default function ProductForm({ initialData }) {
             type='text'
             id='color'
           >
-            <option value='1'>Red</option>
-            <option value='2'>Black</option>
+            {colors.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.name}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -153,8 +168,12 @@ export default function ProductForm({ initialData }) {
         </div>
 
         <div className='flex justify-end'>
-          <Button disabled={isLoading} size='sm'>
-            Create
+          <Button disabled={isMutating} size='sm'>
+            {initialData ? 'Update' : 'Create'}
+
+            {isMutating ? (
+              <Loader2 className='w-4 h-4 ml-2 animate-spin' />
+            ) : null}
           </Button>
         </div>
       </form>

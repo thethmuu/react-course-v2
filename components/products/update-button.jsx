@@ -3,11 +3,14 @@
 import Link from 'next/link';
 
 import { Button } from '../ui/button';
+import { FileEditIcon } from 'lucide-react';
 
 export default function UpdateButton({ id }) {
   return (
-    <Button variant='outline'>
-      <Link href={`/admin/products/${id}`}>Update</Link>
-    </Button>
+    <Link href={`/admin/products/${id}`}>
+      <Button variant='outline' size='icon'>
+        <FileEditIcon className='w-4 h-4' />
+      </Button>
+    </Link>
   );
 }

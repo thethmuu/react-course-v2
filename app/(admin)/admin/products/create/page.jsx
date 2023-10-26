@@ -1,9 +1,17 @@
 import ProductForm from '@/components/products/product-form';
 
-export default function ProductCreatePage() {
+import getCategories from '@/actions/getCategories';
+import getSizes from '@/actions/getSizes';
+import getColors from '@/actions/getColors';
+
+export default async function ProductCreatePage() {
+  const categories = await getCategories();
+  const sizes = await getSizes();
+  const colors = await getColors();
+
   return (
-    <div>
-      <ProductForm />
-    </div>
+    <>
+      <ProductForm categories={categories} sizes={sizes} colors={colors} />
+    </>
   );
 }

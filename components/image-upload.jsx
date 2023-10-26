@@ -3,8 +3,9 @@
 import { CldUploadWidget } from 'next-cloudinary';
 import Image from 'next/image';
 import { Button } from './ui/button';
-import { CrossIcon } from 'lucide-react';
-import { TrashIcon } from 'lucide-react';
+
+import { UploadCloudIcon } from 'lucide-react';
+import { XCircleIcon } from 'lucide-react';
 
 export default function ImageUpload({ value, onChange, onRemove }) {
   function onUpload(result) {
@@ -12,17 +13,18 @@ export default function ImageUpload({ value, onChange, onRemove }) {
   }
 
   return (
-    <section>
+    <section className='mt-1'>
       <ul>
         {value.map((url) => (
           <li className='relative w-[220px] aspect-square rounded-md' key={url}>
             <Button
               type='button'
               onClick={() => onRemove(url)}
-              variant='destrutive'
-              className='absolute z-10 top-1 right-1'
+              size='icon'
+              variant='destructive'
+              className='absolute z-10 -top-2 -right-2 rounded-full border border-white shadow'
             >
-              <TrashIcon />
+              <XCircleIcon className='w-4 h-4' />
             </Button>
             <Image
               className='object-cover'
@@ -40,9 +42,13 @@ export default function ImageUpload({ value, onChange, onRemove }) {
             open();
           }
           return (
-            <button className='button' onClick={handleOnClick}>
-              Upload an Image
-            </button>
+            <Button
+              className='button mt-2'
+              variant='outline'
+              onClick={handleOnClick}
+            >
+              <UploadCloudIcon className='w-4 h-4 mr-1' /> Upload Image
+            </Button>
           );
         }}
       </CldUploadWidget>
