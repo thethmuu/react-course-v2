@@ -23,7 +23,7 @@ export default function CartAction() {
       <Sheet>
         <SheetTrigger className='rounded flex items-center gap-2 p-2 relative border'>
           <ShoppingCart className='w-4 h-4' color='black' />
-          <span className='absolute -top-2 -right-2 test-xs w-4 h-4 flex items-center justify-center bg-blue-500 text-white rounded'>
+          <span className='absolute -top-2 -right-2 text-xs w-4 h-4 flex items-center justify-center bg-blue-500 text-white rounded'>
             0
           </span>
         </SheetTrigger>
