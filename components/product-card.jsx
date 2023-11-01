@@ -6,11 +6,13 @@ import { Expand } from 'lucide-react';
 import { ShoppingCart } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
-export default function ProductCard() {
+export default function ProductCard({ product }) {
+  const { id, name, category, imageUrl, price } = product;
+
   const router = useRouter();
 
   function handleClick() {
-    router.push('/products/polo-tee');
+    router.push(`/products/${id}`);
   }
 
   function preventEventBubbling(e) {
@@ -20,12 +22,12 @@ export default function ProductCard() {
   return (
     <article
       onClick={handleClick}
-      className='max-w-[16rem] group space-y-3 text-center cursor-pointer border-neutral-900'
+      className='w-64 group space-y-3 text-center cursor-pointer border-neutral-900'
     >
       <div className='aspect-square rounded-xl relative'>
         <Image
-          src='https://picsum.photos/400/600'
-          alt='Product label'
+          src={imageUrl}
+          alt={name}
           fill
           className='object-cover aspect-square rounded-md'
         />
@@ -34,21 +36,18 @@ export default function ProductCard() {
           className='absolute bottom-5 flex items-center justify-center w-full opacity-0 group-hover:opacity-100 gap-2'
         >
           <Button variant='secondary'>
-            <Expand size={18} className='text-gray-600' />
-          </Button>
-          <Button variant='secondary'>
             <ShoppingCart size={18} className='text-gray-600' />
           </Button>
         </div>
       </div>
 
       <div>
-        <p>Polo tee</p>
-        <p>Shirt</p>
+        <p>{name}</p>
+        <p>{category?.name}</p>
       </div>
 
       <div>
-        <p>$30</p>
+        <p>${price}</p>
       </div>
     </article>
   );

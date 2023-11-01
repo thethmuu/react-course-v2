@@ -1,12 +1,23 @@
+'use client';
+
 import Link from 'next/link';
+import { useQuery } from '@tanstack/react-query';
 
 import NavLinks from './nav-links';
 import CartAction from './cart-action';
 import getCategories from '@/actions/getCategories';
 import SearchForm from './search-form';
 
-export default async function Navbar() {
-  const categories = await getCategories();
+export default function Navbar() {
+  const {
+    data: categories,
+    isPending,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ['categories'],
+    queryFn: getCategories,
+  });
 
   return (
     <header className='border-b'>
@@ -15,7 +26,13 @@ export default async function Navbar() {
           <Link href='/' className='text-xl font-bold'>
             Hub.
           </Link>
-          <NavLinks data={categories} />
+          {isPending ? (
+            <p>loading...</p>
+          ) : isError ? (
+            <p>{error.message}</p>
+          ) : (
+            <NavLinks data={categories} />
+          )}
         </div>
 
         <SearchForm />
