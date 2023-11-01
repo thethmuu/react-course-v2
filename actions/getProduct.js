@@ -3,7 +3,9 @@ async function getProduct(id) {
 
   const res = await fetch(URL, { cache: 'no-cache' });
 
-  return res.json();
+  const data = await res.json();
+
+  return data[0];
 }
 
 export default getProduct;

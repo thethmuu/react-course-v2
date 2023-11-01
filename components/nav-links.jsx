@@ -2,15 +2,22 @@
 
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 
 export default function NavLinks({ data }) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  const links = data.map((item) => ({
+  const currentCategory = searchParams.get('category');
+
+  const firstThreeItems = data.slice(0, 3);
+
+  const links = firstThreeItems.map((item) => ({
     href: `/products?category=${item.slug}`,
     label: item.name,
-    isActive: pathname === `/products?category=${item.slug}`,
+    isActive:
+      `${pathname}?category=${currentCategory}` ===
+      `/products?category=${item.slug}`,
   }));
 
   return (
@@ -21,7 +28,7 @@ export default function NavLinks({ data }) {
           href={link.href}
           className={cn(
             'text-sm font-medium hover:text-black hover:underline transition-color',
-            link.isActive ? 'text-black' : 'text-slate-500'
+            link.isActive ? 'text-black underline' : 'text-slate-500'
           )}
         >
           {link.label}

@@ -1,29 +1,38 @@
 'use client';
+
 import { useQuery } from '@tanstack/react-query';
 import ProductCard from './product-card';
 import getProducts from '@/actions/getProducts';
 
-export default function ProductList() {
+export default function ProductList({ title }) {
   const {
     data: products,
-    isLoading,
+    isPending,
     isError,
+    error,
   } = useQuery({
     queryKey: ['products'],
     queryFn: getProducts,
   });
 
-  if (isLoading) return <p>Loading</p>;
-  if (isError) return <p>Error</p>;
+  console.log(products);
 
   return (
-    <section className='my-6'>
+    <section>
       <div className='container mx-auto px-4 lg:px-8'>
-        <h3 className='font-semibold text-xl text-center'>Latest Arrivals</h3>
-        <div className='px-4 mt-4 flex flex-wrap gap-6 justify-center'>
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+        <h3 className='font-semibold text-xl text-center'>{title}</h3>
+        <div className='flex flex-wrap gap-6 justify-center mt-4'>
+          {isPending ? (
+            <p>loading...</p>
+          ) : isError ? (
+            <p>{error.message}</p>
+          ) : (
+            <>
+              {products.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </>
+          )}
         </div>
       </div>
     </section>

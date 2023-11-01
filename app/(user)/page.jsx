@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <main>
       <HeroCover />
-      <ProductList />
+      <ProductList title='Latest Arrivals' />
     </main>
   );
 }

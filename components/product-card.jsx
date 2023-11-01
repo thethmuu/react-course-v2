@@ -7,13 +7,12 @@ import { ShoppingCart } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
 export default function ProductCard({ product }) {
-  const { name, price, category, imageUrl } = product;
+  const { id, name, category, imageUrl, price } = product;
+
   const router = useRouter();
 
-  console.log('product', product);
-
   function handleClick() {
-    router.push('/products/polo-tee');
+    router.push(`/products/${id}`);
   }
 
   function preventEventBubbling(e) {
@@ -36,9 +35,6 @@ export default function ProductCard({ product }) {
           onClick={preventEventBubbling}
           className='absolute bottom-5 flex items-center justify-center w-full opacity-0 group-hover:opacity-100 gap-2'
         >
-          <Button variant='secondary'>
-            <Expand size={18} className='text-gray-600' />
-          </Button>
           <Button variant='secondary'>
             <ShoppingCart size={18} className='text-gray-600' />
           </Button>
