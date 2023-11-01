@@ -6,8 +6,11 @@ import { Expand } from 'lucide-react';
 import { ShoppingCart } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
-export default function ProductCard() {
+export default function ProductCard({ product }) {
+  const { name, price, category, imageUrl } = product;
   const router = useRouter();
+
+  console.log('product', product);
 
   function handleClick() {
     router.push('/products/polo-tee');
@@ -20,12 +23,12 @@ export default function ProductCard() {
   return (
     <article
       onClick={handleClick}
-      className='max-w-[16rem] group space-y-3 text-center cursor-pointer border-neutral-900'
+      className='w-64 group space-y-3 text-center cursor-pointer border-neutral-900'
     >
       <div className='aspect-square rounded-xl relative'>
         <Image
-          src='https://picsum.photos/400/600'
-          alt='Product label'
+          src={imageUrl}
+          alt={name}
           fill
           className='object-cover aspect-square rounded-md'
         />
@@ -43,12 +46,12 @@ export default function ProductCard() {
       </div>
 
       <div>
-        <p>Polo tee</p>
-        <p>Shirt</p>
+        <p>{name}</p>
+        <p>{category?.name}</p>
       </div>
 
       <div>
-        <p>$30</p>
+        <p>${price}</p>
       </div>
     </article>
   );
