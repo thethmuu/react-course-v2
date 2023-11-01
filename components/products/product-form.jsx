@@ -1,20 +1,18 @@
 'use client';
 
-import { useState, useTransition } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
-import { Loader2 } from 'lucide-react';
-
 import { Button } from '../ui/button';
 import ImageUpload from '../image-upload';
-
+import { useRouter } from 'next/navigation';
+import { useState, useTransition } from 'react';
 import updateProduct from '@/actions/updateProduct';
+import { Loader2 } from 'lucide-react';
 
 export default function ProductForm({
   initialData,
+  categories,
   sizes,
   colors,
-  categories,
 }) {
   const {
     register,
@@ -55,14 +53,15 @@ export default function ProductForm({
       });
       router.push('/admin/products');
     } catch (error) {
-      console.log(error.message);
+      console.log('Something went wrong!');
+      console.log(error);
     } finally {
       setIsLoading(false);
     }
   }
 
   return (
-    <article className='max-w-sm mx-auto my-4'>
+    <article className='max-w-sm mx-auto mt-4'>
       <h1 className='text-2xl font-semibold'>
         {initialData ? 'Update product' : 'Create New Product'}
       </h1>
@@ -114,6 +113,7 @@ export default function ProductForm({
             className='w-full border px-2 py-1 mt-1 rounded'
             id='category'
           >
+            <option value=''>Select category</option>
             {categories.map((item) => (
               <option key={item.id} value={item.id}>
                 {item.name}
@@ -172,7 +172,7 @@ export default function ProductForm({
             {initialData ? 'Update' : 'Create'}
 
             {isMutating ? (
-              <Loader2 className='ml-2 h-4 w-4 animate-spin' />
+              <Loader2 className='w-4 h-4 ml-2 animate-spin' />
             ) : null}
           </Button>
         </div>

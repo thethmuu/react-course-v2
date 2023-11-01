@@ -3,6 +3,7 @@
 import { CldUploadWidget } from 'next-cloudinary';
 import Image from 'next/image';
 import { Button } from './ui/button';
+
 import { UploadCloudIcon } from 'lucide-react';
 import { XCircleIcon } from 'lucide-react';
 
@@ -41,7 +42,11 @@ export default function ImageUpload({ value, onChange, onRemove }) {
             open();
           }
           return (
-            <Button className='mt-2' variant='outline' onClick={handleOnClick}>
+            <Button
+              className='button mt-2'
+              variant='outline'
+              onClick={handleOnClick}
+            >
               <UploadCloudIcon className='w-4 h-4 mr-1' /> Upload Image
             </Button>
           );

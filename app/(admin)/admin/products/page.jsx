@@ -7,18 +7,22 @@ import { Button } from '@/components/ui/button';
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { formatDistance } from 'date-fns';
+import { format, formatDistance } from 'date-fns';
 import { PlusCircleIcon } from 'lucide-react';
+import { TrashIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export default async function Products() {
   const products = await getProducts();
+
+  console.log(products);
 
   return (
     <section>
@@ -26,7 +30,7 @@ export default async function Products() {
         <div className='flex justify-end'>
           <Link href='/admin/products/create'>
             <Button size='sm'>
-              <PlusCircleIcon className='w-4 h-4 mr-2' /> Add Product
+              <PlusCircleIcon className='mr-2 w-4 h-4' /> Add Product
             </Button>
           </Link>
         </div>
@@ -58,7 +62,6 @@ export default async function Products() {
                         className='object-cover'
                         fill
                         priority
-                        sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
                         alt={product.name}
                         src={product.imageUrl}
                       />
@@ -70,14 +73,14 @@ export default async function Products() {
                   {product.price ? product.price : ''}
                 </TableCell>
                 <TableCell>{product.category?.name}</TableCell>
-                <TableCell>{product.size?.name}</TableCell>
-                <TableCell>{product.color?.name}</TableCell>
-                <TableCell>
+                <TableHead>{product.size?.name}</TableHead>
+                <TableHead>{product.color?.name}</TableHead>
+                <TableHead>
                   <UpdateButton id={product.id} />
-                </TableCell>
-                <TableCell>
+                </TableHead>
+                <TableHead>
                   <DeleteButton id={product.id} />
-                </TableCell>
+                </TableHead>
                 <TableCell>
                   {formatDistance(new Date(product.created_at), new Date())} ago
                 </TableCell>

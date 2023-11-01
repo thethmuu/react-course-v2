@@ -10,18 +10,19 @@ export default function SearchForm() {
     e.preventDefault();
     const formData = new FormData(e.target);
     const keyword = formData.get('keyword');
+
     router.push(`/products?keyword=${keyword}`);
   }
 
   return (
     <form onSubmit={handleSubmit}>
       <input
+        type='search'
         name='keyword'
         key={searchParams?.get('keyword')}
         defaultValue={searchParams?.get('keyword') || ''}
         placeholder='Search for products...'
-        className='border px-3 py-1 mt-1 rounded-md ring-offset-0.5 focus:ring ring-blue-200 outline-none max-w-full w-96'
-        type='search'
+        className='border px-3 py-1 mt-1 rounded-md outline-none w-96 max-w-full focus:ring ring-blue-200 ring-offset-1'
       />
     </form>
   );

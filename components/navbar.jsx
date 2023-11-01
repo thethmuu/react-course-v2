@@ -5,6 +5,7 @@ import CartAction from './cart-action';
 import SearchForm from './search-form';
 
 import getCategories from '@/actions/getCategories';
+import SearchForm from './search-form';
 
 export default async function Navbar() {
   const categories = await getCategories();
