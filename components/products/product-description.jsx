@@ -25,7 +25,7 @@ export default function ProductDescription({ product }) {
         />
       ) : null}
 
-      <AddToCart />
+      <AddToCart product={product} />
     </>
   );
 }

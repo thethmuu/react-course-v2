@@ -21,8 +21,8 @@ export default function AllProductsPage() {
 
   return (
     <section>
-      <div className='container mx-auto px-4 lg:px-8 flex my-6'>
-        <aside className='border-r w-1/5 h-screen'>
+      <div className='container mx-auto px-4 lg:px-8 flex'>
+        <aside className='border-r w-1/5 min-h-screen py-6'>
           <ul>
             {categories.map((item) => (
               <Link key={item.id} href={`/products?category=${item.slug}`}>
