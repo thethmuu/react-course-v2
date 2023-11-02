@@ -1,10 +1,10 @@
 import AddToCart from '../cart/add-to-cart';
 import Prose from '../prose';
-import VariantSelector from './variant-selector';
+import { Button } from '../ui/button';
 
 export default function ProductDescription({ product }) {
-  const { id, name, category, imageUrl, price, description } = product;
-  console.log(product);
+  const { name, category, price, description } = product;
+
   return (
     <>
       <div className='mb-6 flex flex-col border-b pb-6'>
@@ -25,7 +25,7 @@ export default function ProductDescription({ product }) {
         />
       ) : null}
 
-      <AddToCart />
+      <AddToCart product={product} />
     </>
   );
 }
