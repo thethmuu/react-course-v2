@@ -28,7 +28,7 @@ export default function ProductList({ title }) {
             <p>{error.message}</p>
           ) : (
             <>
-              {products.map((product) => (
+              {products.data.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
             </>

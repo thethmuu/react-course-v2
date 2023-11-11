@@ -39,7 +39,7 @@ export default function ProductCard({ product }) {
         <BlurImage imageUrl={imageUrl} name={name} />
         <div
           onClick={preventEventBubbling}
-          className='absolute bottom-5 flex items-center justify-center w-full opacity-0 group-hover:opacity-100 gap-2'
+          className='absolute bottom-5 flex items-center justify-center w-full opacity-0 group-hover:opacity-100 gap-2 transition'
         >
           <Button onClick={handleAdd} variant='secondary'>
             <ShoppingCart size={18} className='text-gray-600' />

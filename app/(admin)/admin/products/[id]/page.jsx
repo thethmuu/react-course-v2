@@ -20,7 +20,7 @@ export default async function ProductUpdatePage({ params }) {
   return (
     <>
       <ProductForm
-        initialData={product}
+        initialData={product.data}
         categories={categories}
         sizes={sizes}
         colors={colors}

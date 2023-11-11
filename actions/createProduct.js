@@ -1,5 +1,5 @@
-async function updateProduct(id, data) {
-  const URL = `${process.env.NEXT_PUBLIC_API_URL}/products/${id}`;
+async function createProduct(data) {
+  const URL = `${process.env.NEXT_PUBLIC_API_URL}/products`;
 
   data = {
     ...data,
@@ -15,7 +15,7 @@ async function updateProduct(id, data) {
   };
 
   const res = await fetch(URL, {
-    method: 'PUT',
+    method: 'POST',
     body: JSON.stringify(data),
     headers: {
       'Content-Type': 'application/json',
@@ -25,4 +25,4 @@ async function updateProduct(id, data) {
   return res;
 }
 
-export default updateProduct;
+export default createProduct;

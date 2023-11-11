@@ -10,7 +10,7 @@ export default function NavLinks({ data }) {
 
   const currentCategory = searchParams.get('category');
 
-  const firstThreeItems = data.slice(0, 3);
+  const firstThreeItems = data.data.slice(0, 3);
 
   const links = firstThreeItems.map((item) => ({
     href: `/products?category=${item.slug}`,

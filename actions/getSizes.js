@@ -1,4 +1,4 @@
-const URL = `${process.env.NEXT_PUBLIC_API_URL}/sizes?apikey=${process.env.NEXT_PUBLIC_API_KEY}`;
+const URL = `${process.env.NEXT_PUBLIC_API_URL}/sizes`;
 
 async function getSizes() {
   const res = await fetch(URL);

@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useState, useTransition } from 'react';
 import updateProduct from '@/actions/updateProduct';
 import { Loader2 } from 'lucide-react';
+import createProduct from '@/actions/createProduct';
 
 export default function ProductForm({
   initialData,
@@ -21,7 +22,12 @@ export default function ProductForm({
     control,
   } = useForm({
     ...(initialData && {
-      defaultValues: initialData,
+      defaultValues: {
+        ...initialData,
+        categoryId: initialData.category.id,
+        sizeId: initialData.size.id,
+        colorId: initialData.color.id,
+      },
     }),
   });
   const router = useRouter();
@@ -29,29 +35,27 @@ export default function ProductForm({
   const [isPending, startTransition] = useTransition();
   const isMutating = isLoading || isPending;
 
-  const URL = `${process.env.NEXT_PUBLIC_API_URL}/products?apikey=${process.env.NEXT_PUBLIC_API_KEY}`;
-
   async function onSubmit(formData) {
     try {
       setIsLoading(true);
+
+      let res;
       // update mode
       if (initialData) {
-        await updateProduct(initialData.id, formData);
+        res = await updateProduct(initialData.id, formData);
       } else {
         // create mode
-        await fetch(URL, {
-          method: 'POST',
-          body: JSON.stringify(formData),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+        res = await createProduct(formData);
       }
 
-      startTransition(() => {
-        router.refresh();
-      });
-      router.push('/admin/products');
+      if (res.ok) {
+        startTransition(() => {
+          router.refresh();
+        });
+        router.push('/admin/products');
+      } else {
+        throw new Error('Saving failed');
+      }
     } catch (error) {
       console.log('Something went wrong!');
       console.log(error);
@@ -114,7 +118,7 @@ export default function ProductForm({
             id='category'
           >
             <option value=''>Select category</option>
-            {categories.map((item) => (
+            {categories.data.map((item) => (
               <option key={item.id} value={item.id}>
                 {item.name}
               </option>
@@ -133,7 +137,7 @@ export default function ProductForm({
             className='w-full border px-2 py-1 mt-1 rounded'
             id='sizeId'
           >
-            {sizes.map((item) => (
+            {sizes.data.map((item) => (
               <option key={item.id} value={item.id}>
                 {item.name}
               </option>
@@ -149,7 +153,7 @@ export default function ProductForm({
             type='text'
             id='color'
           >
-            {colors.map((item) => (
+            {colors.data.map((item) => (
               <option key={item.id} value={item.id}>
                 {item.name}
               </option>

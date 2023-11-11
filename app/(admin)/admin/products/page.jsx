@@ -53,7 +53,7 @@ export default async function Products() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {products.map((product) => (
+            {products.data.map((product) => (
               <TableRow key={product.id}>
                 <TableCell>
                   {product.imageUrl ? (
@@ -82,7 +82,7 @@ export default async function Products() {
                   <DeleteButton id={product.id} />
                 </TableHead>
                 <TableCell>
-                  {formatDistance(new Date(product.created_at), new Date())} ago
+                  {formatDistance(new Date(product.createdAt), new Date())} ago
                 </TableCell>
               </TableRow>
             ))}
