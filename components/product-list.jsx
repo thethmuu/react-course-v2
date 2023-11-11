@@ -19,9 +19,9 @@ export default function ProductList({ title }) {
 
   return (
     <section>
-      <div className='container mx-auto px-4 lg:px-8'>
+      <div className='container mx-auto px-4 lg:px-8 py-6'>
         <h3 className='font-semibold text-xl text-center'>{title}</h3>
-        <div className='flex flex-wrap gap-6 justify-center mt-4'>
+        <div className='flex flex-wrap gap-6 justify-center mt-6'>
           {isPending ? (
             <p>loading...</p>
           ) : isError ? (
