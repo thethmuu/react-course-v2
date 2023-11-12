@@ -27,7 +27,7 @@ export default function ProductPage() {
   if (isPending) return <p>loading...</p>;
   if (isError) return <p>{error.message}</p>;
 
-  const { name, category, imageUrl, price } = product;
+  const { name, category, imageUrl, price } = product.data;
 
   return (
     <section>
@@ -37,7 +37,7 @@ export default function ProductPage() {
             <Gallery imageUrl={imageUrl} />
           </div>
           <div className='basis-full lg:basis-2/6'>
-            <ProductDescription product={product} />
+            <ProductDescription product={product.data} />
           </div>
         </div>
       </div>

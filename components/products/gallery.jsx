@@ -16,17 +16,6 @@ export default function Gallery({ imageUrl }) {
         fill
         priority={true}
       />
-
-      <div className='absolute bottom-[15%] flex w-full justify-center'>
-        <div className='flex items-center h-11 rounded-full border border-white bg-neutal-50/80 backdrop-blur'>
-          <Link className={btnClassName} scroll={false} href='#'>
-            <ArrowLeftIcon className='w-5 h-5' />
-          </Link>
-          <Link className={btnClassName} scroll={false} href='#'>
-            <ArrowRightIcon className='w-5 h-5' />
-          </Link>
-        </div>
-      </div>
     </div>
   );
 }

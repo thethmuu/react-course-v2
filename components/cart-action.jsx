@@ -21,7 +21,6 @@ import { Button } from './ui/button';
 export default function CartAction() {
   const { totalQty, totalPrice, cartItems, onAdd, onRemove } = useCartContext();
 
-  console.log(cartItems);
   const hasMounted = useHasMounted();
 
   if (!hasMounted) return null;

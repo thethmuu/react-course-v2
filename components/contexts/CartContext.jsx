@@ -7,11 +7,6 @@ export function CartContextProvider({ children }) {
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalQty, setTotalQty] = useState(0);
 
-  useEffect(() => {
-    console.log('items', cartItems);
-    console.log('total', totalQty);
-  }, [cartItems, totalQty]);
-
   function onAdd(product, qty) {
     setTotalPrice((prevPrice) => prevPrice + product.price * qty);
 
