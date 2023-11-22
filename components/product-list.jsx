@@ -1,21 +1,49 @@
 'use client';
 
+import { useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
+
 import { useQuery } from '@tanstack/react-query';
 import ProductCard from './product-card';
 import getProducts from '@/actions/getProducts';
 
 export default function ProductList({ title }) {
+  const sp = useSearchParams();
+  const category = sp.get('category');
+  const keyword = sp.get('keyword');
+
+  const query = {
+    filters: {
+      ...(keyword && {
+        name: {
+          $containsi: keyword,
+        },
+      }),
+      ...(category && {
+        category: {
+          slug: {
+            $containsi: category,
+          },
+        },
+      }),
+    },
+  };
+
   const {
     data: products,
     isPending,
     isError,
     error,
+    refetch,
   } = useQuery({
     queryKey: ['products'],
-    queryFn: getProducts,
+    queryFn: () => getProducts(query),
   });
 
-  console.log(products);
+  // refetch on query param change
+  useEffect(() => {
+    refetch();
+  }, [sp, refetch]);
 
   return (
     <section>
